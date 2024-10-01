@@ -12,4 +12,3 @@ def recipe(request, id):
         'recipe': make_recipe(),
         'is_detail_page': True,
 })
-
