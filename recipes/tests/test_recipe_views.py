@@ -2,7 +2,6 @@ from django.urls import resolve, reverse
 from recipes import views
 from .test_recipe_base import RecipeTestBase
 
-
 class RecipeViewsTest(RecipeTestBase):
     def test_recipe_home_view_function_is_correct(self):
         view = resolve(reverse('recipes:home'))
