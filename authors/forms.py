@@ -9,10 +9,8 @@ def add_attr(field, attr_name, attr_new_val):
     existing = field.widget.attrs.get(attr_name, '')
     field.widget.attrs[attr_name] = f'{existing} {attr_new_val}'.strip()
 
-
 def add_placeholder(field, placeholder_val):
     add_attr(field, 'placeholder', placeholder_val)
-
 
 def strong_password(password):
     regex = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$')
@@ -26,7 +24,6 @@ def strong_password(password):
             code='invalid'
         )
     
-    
 class RegisterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -36,7 +33,6 @@ class RegisterForm(forms.ModelForm):
         add_placeholder(self.fields['last_name'], 'Ex.: Doe')
         add_placeholder(self.fields['password'], 'Type your password')
         add_placeholder(self.fields['password2'], 'Repeat your password')
-
     password = forms.CharField(
         required=True,
         widget=forms.PasswordInput(),
@@ -48,11 +44,13 @@ class RegisterForm(forms.ModelForm):
             'one lowercase letter and one number. The length should be '
             'at least 8 characters.'
         ),
-        validators=[strong_password]
+        validators=[strong_password],
+        label='Password'
     )
     password2 = forms.CharField(
         required=True,
-        widget=forms.PasswordInput()
+        widget=forms.PasswordInput(),
+        label='Password2'
     )
 
     class Meta:
@@ -64,13 +62,12 @@ class RegisterForm(forms.ModelForm):
             'email',
             'password',
         ]
-        # exclude = ['first_name']
+
         labels = {
             'username': 'Username',
             'first_name': 'First name',
             'last_name': 'Last name',
             'email': 'E-mail',
-            'password': 'Password',
         }
         help_texts = {
             'email': 'The e-mail must be valid.',
@@ -80,28 +77,11 @@ class RegisterForm(forms.ModelForm):
                 'required': 'This field must not be empty',
             }
         }
-        
 
-    def clean_password(self):
-        data = self.cleaned_data.get('password')
-        if 'atenção' in data:
-            raise ValidationError(
-                'Não digite %(pipoca)s no campo password',
-                code='invalid',
-                params={'pipoca': '"atenção"'}
-            )
-        return data
-    def clean_first_name(self):
-        data = self.cleaned_data.get('first_name')
-        if 'John Doe' in data:
-            raise ValidationError(
-                'Não digite %(value)s no campo first name',
-                code='invalid',
-                params={'value': '"John Doe"'}
-            )
-        return data
+    
     def clean(self):
         cleaned_data = super().clean()
+
         password = cleaned_data.get('password')
         password2 = cleaned_data.get('password2')
         if password != password2:
