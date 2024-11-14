@@ -1,5 +1,6 @@
+from unittest import TestCase
 from authors.forms import RegisterForm
-from django.test import TestCase
+# from django.test import TestCase
 from parameterized import parameterized
 
 class AuthorRegisterFormUnitTest(TestCase):
@@ -40,7 +41,7 @@ class AuthorRegisterFormUnitTest(TestCase):
         ('password', 'Password'),
         ('password2', 'Password2'),
     ])
-    
+
     def test_fields_label(self, field, needed):
         form = RegisterForm()
         current = form[field].field.label
