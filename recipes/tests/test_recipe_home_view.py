@@ -15,7 +15,7 @@ class RecipeHomeViewTest(RecipeTestBase):
     def test_recipe_home_template_shows_no_recipes_found_if_no_recipes(self):
         response = self.client.get(reverse('recipes:home'))
         self.assertIn(
-            '<h1>No recipes found here 🥲</h1>',
+            '<h1>Não há Receitas publicadas. Aguarde!</h1>',
             response.content.decode('utf-8')
         )
     def test_recipe_home_template_loads_recipes(self):
@@ -34,7 +34,7 @@ class RecipeHomeViewTest(RecipeTestBase):
         response = self.client.get(reverse('recipes:home'))
         # Check if one recipe exists
         self.assertIn(
-            '<h1>No recipes found here 🥲</h1>',
+            '<h1>Não há Receitas publicadas. Aguarde!</h1>',
             response.content.decode('utf-8')
         )
     def test_recipe_home_is_paginated(self):
